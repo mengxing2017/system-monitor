@@ -35,7 +35,7 @@ private:
     vector<float> readCpuStats();
     int getCpuLoad(double dt);
 public slots:
-    void update();
+    void getInfo();
 };
 
 #endif // INFO_H

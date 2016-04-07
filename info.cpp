@@ -17,7 +17,7 @@ Info::Info(QWidget *parent) :
     layout = new QVBoxLayout;
     hlayout = new QHBoxLayout;
 
-    cpubar->setMaximumHeight(21); RAMbar->setMaximumHeight(21);
+    cpubar->setMaximumHeight(20); RAMbar->setMaximumHeight(20);
     hlayout->addWidget(cpuload); hlayout->addWidget(cpubar);
     layout->addWidget(kernel);
     layout->addWidget(hostname); layout->addWidget(user);
@@ -26,13 +26,13 @@ Info::Info(QWidget *parent) :
     layout->addWidget(RAM); layout->addWidget(RAMload);
     layout->addWidget(RAMbar); setLayout(layout);
 
-    update();
+    getInfo();
 
     QTimer *timer = new QTimer;
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(getInfo()));
     timer->start(2000);
 }
-void Info::update()
+void Info::getInfo()//Берем информацию о системе.
 {
     string str;
     ifstream ver("/proc/version");
@@ -110,16 +110,18 @@ void Info::update()
     int usageRAM = (usedMemory * 100) / totalMemory;
     RAMbar -> setValue(usageRAM);
 }
-int Info::getCpuLoad(double dt)
+int Info::getCpuLoad(double dt)//Загруженность процессора
 {
     vector<float> stats1 = readCpuStats();
     QProcess::execute("sleep",QStringList() << QString::number(dt));
     vector<float> stats2 = readCpuStats();
+
     int size1 = stats1.size();
     int size2 = stats2.size();
     if (!size1 || !size2 || size1 != size2) return 2;
     for (int i = 0; i < size1; ++i)
         stats2[i] -= stats1[i];
+
     int sum = 1;
     for (int i = 0; i < size1; ++i)
         sum += stats2[i];
@@ -130,11 +132,7 @@ vector<float> Info::readCpuStats()
 {
     vector<float> ret;
     ifstream stat_file("/proc/stat");
-    if (!stat_file.is_open())
-    {
-        cout << "Unable to open /proc/stat" << std::endl;
-        return ret;
-    }
+
     int val;
     string tmp;
     stat_file >> tmp;

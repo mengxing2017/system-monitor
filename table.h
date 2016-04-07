@@ -1,5 +1,5 @@
-#ifndef PROCESSTABLE_H
-#define PROCESSTABLE_H
+#ifndef ProcTable_H
+#define ProcTable_H
 
 #include "QWidget"
 #include"QLayout"
@@ -9,19 +9,19 @@
 #include "iostream"
 #include "fstream"
 using namespace std;
-class ProcessTable : public QWidget
+class ProcTable : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ProcessTable(QWidget *parent = 0);
+    explicit ProcTable(QWidget *parent = 0);
 private:
     QTableWidget * table;
     QHBoxLayout * hlayout;
     QPushButton * button;
     QVBoxLayout * layout;
 public slots:
-    void update();
+    void getInfo();
     void kill();
 };
 
-#endif // PROCESSTABLE_H
+#endif // ProcTable_H

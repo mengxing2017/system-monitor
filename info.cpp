@@ -3,8 +3,9 @@
 Info::Info(QWidget *parent) :
     QWidget(parent)
 {
+    kernel     = new QLabel("Kernel: ");
     hostname   = new QLabel("Hostname: ");
-    user       = new QLabel("User: ");
+    user       = new QLabel("Username: ");
     uptime     = new QLabel("Uptime: ");
     proc       = new QLabel("Processor: ");
     freq       = new QLabel("Frequency: ");
@@ -18,6 +19,7 @@ Info::Info(QWidget *parent) :
 
     cpubar->setMaximumHeight(21); membar->setMaximumHeight(21);
     hlayout->addWidget(cpuload); hlayout->addWidget(cpubar);
+    layout->addWidget(kernel);
     layout->addWidget(hostname); layout->addWidget(user);
     layout->addWidget(uptime); layout->addWidget(proc);
     layout->addWidget(freq); layout->addLayout(hlayout);
@@ -32,21 +34,26 @@ Info::Info(QWidget *parent) :
 }
 void Info::update()
 {
-    ifstream stream("/proc/sys/kernel/hostname");
     string str;
+    ifstream ver("/proc/version");
+    ver>>str;ver>>str;ver>>str;
+    kernel->setText("Kernel: " + QString::fromStdString(str));
+
+    ifstream stream("/proc/sys/kernel/hostname");
     getline(stream,str);
     hostname->setText("Hostname: " + QString::fromStdString(str));
 
     uid_t uid = geteuid();
     passwd *pw = getpwuid(uid);
-    user->setText("User: " + QString::fromStdString(pw->pw_name));
+    user->setText("Username: " + QString::fromStdString(pw->pw_name));
 
     struct sysinfo o;
     sysinfo(&o);
     long up = o.uptime;
-    int hour = up/60/60;
-    int min = (up - hour*60*60) / 60;
-    int sec =  ((up - hour*60*60) - min*60);
+    const int th = 60;
+    int hour = up/th/th;
+    int min = (up - hour*th*th) / th;
+    int sec =  ((up - hour*th*th) - min*th);
     QString e = QString::number(hour) +  QString(" h. ") + QString::number(min) + QString(" m. ")
                 + QString::number(sec) + QString(" s.");
     uptime->setText("Uptime: " + e);
@@ -65,10 +72,11 @@ void Info::update()
 
     stream.open("/proc/meminfo");
     stream >> str; stream >> str;
-    int totalMemory = atoi(str.c_str());
 
-    int gb = (totalMemory / 1024) / 1024;
-    int mb = (totalMemory - gb * 1024 * 1024) / 1024;
+    int totalMemory = atoi(str.c_str());
+    const int kb = 1024;
+    int gb = (totalMemory / kb) / kb;
+    int mb = (totalMemory - gb * kb * kb) / kb;
 
     if (gb > 0)
        e = QString::number(gb) + QString(" Gb ");
@@ -87,8 +95,8 @@ void Info::update()
     }
 
     int usedMemory = totalMemory - freeMemory;
-    gb = usedMemory / 1024 / 1024;
-    mb = (usedMemory - gb * 1024 * 1024) / 1024;
+    gb = usedMemory / kb / kb;
+    mb = (usedMemory - gb * kb * kb) / kb;
 
     if (gb > 0)
     {

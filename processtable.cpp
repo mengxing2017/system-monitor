@@ -3,17 +3,20 @@ ProcessTable::ProcessTable(QWidget *parent) :
     QWidget(parent)
 {
     hlayout = new QHBoxLayout;
-    button = new QPushButton("Завершить");
+    button = new QPushButton("Kill");
     button->setToolTip("Для завершения процесса вы должны выделить его PID и нажать на кнопку \"Завершить\"");
     connect(button,SIGNAL(clicked()),this,SLOT(kill()));
+
     hlayout->addStretch();
     hlayout->addWidget(button);
     layout = new QVBoxLayout;
     table = new QTableWidget;
     update();
+
     layout->addWidget(table);
     layout->addLayout(hlayout);
     this->setLayout(layout);
+
     QTimer *timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(4000);
@@ -22,6 +25,7 @@ void ProcessTable::update()
 {
     table->setColumnCount(2);
     table->setRowCount(0);
+
     QStringList list;
     list << "Name" << "PID";
     table->setHorizontalHeaderLabels(list);

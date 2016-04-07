@@ -19,6 +19,7 @@ class Info : public QWidget
 public:
     explicit Info(QWidget *parent = 0);
 private:
+    QLabel       * kernel;
     QLabel       * hostname;
     QLabel       * user;
     QLabel       * uptime;

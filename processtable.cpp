@@ -39,13 +39,13 @@ void ProcessTable::update()
             string s; getline(stream,s);
             int lastRow = table->rowCount();
             QString icon = "/usr/share/icons/hicolor/32x32/apps/" + QString::fromStdString(s) + ".png";
-            QFile file(icon);
+            //QFile file(icon);
             table->insertRow(lastRow);
             table->setColumnWidth(0,150);
 
-            if(!file.exists()) {
-                icon = ":/binary.png";
-            }
+            /*if(!file.exists()) {
+                icon = "icon.png";
+            }*/
             table->setItem(lastRow,0,new QTableWidgetItem(QPixmap(icon),QString::fromStdString(s)));
             table->setItem(lastRow,1,new QTableWidgetItem(str));
         } else {

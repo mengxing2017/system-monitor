@@ -23,4 +23,4 @@ HEADERS  += \
     processtable.h \
     systemmonitor.h
 
-FORMS    += mainwindow.ui
+FORMS    +=

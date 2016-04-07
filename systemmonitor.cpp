@@ -1,4 +1,5 @@
 #include"systemmonitor.h"
+
 SystemMonitor::SystemMonitor(QWidget *parent) :
     QWidget(parent)
 {

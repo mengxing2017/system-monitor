@@ -8,7 +8,7 @@ Info::Info(QWidget *parent) :
     uptime     = new QLabel("Uptime: ");
     proc       = new QLabel("Processor: ");
     freq       = new QLabel("Frequency: ");
-    cpuload    = new QLabel("Загрузка процессора: ");
+    cpuload    = new QLabel("CPU load: ");
     mem        = new QLabel("Total RAM: ");
     memload    = new QLabel("Usage RAM: ");
     cpubar     = new QProgressBar;
@@ -56,20 +56,19 @@ void Info::update()
         stream >> str;
     getline(stream,str);
     proc->setText("Processor: " + QString::fromStdString(str));
-    for(int i = 0; i< 7; i++)
+    for(int i = 0; i< 10; i++)
         stream >> str;
     freq->setText("Frequency: " + QString::fromStdString(str) + " MHz");
 
     cpubar->setValue(getCpuLoad(0.3));
-
     stream.close();
+
     stream.open("/proc/meminfo");
     stream >> str; stream >> str;
-
     int totalMemory = atoi(str.c_str());
+
     int gb = (totalMemory / 1024) / 1024;
     int mb = (totalMemory - gb * 1024 * 1024) / 1024;
-    int kb = (totalMemory - (gb * 1024 * 1024 + mb * 1024));
 
     if (gb > 0)
        e = QString::number(gb) + QString(" Gb ");
@@ -77,8 +76,7 @@ void Info::update()
        e = QString("");
     if (mb > 0)
        e += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       e += QString::number(kb) + QString(" Kb ");
+
     mem->setText("Total RAM: " + e);
 
     int freeMemory = 0;
@@ -91,18 +89,18 @@ void Info::update()
     int usedMemory = totalMemory - freeMemory;
     gb = usedMemory / 1024 / 1024;
     mb = (usedMemory - gb * 1024 * 1024) / 1024;
-    kb = (usedMemory - ((mb * 1024) + (gb * 1024 * 1024)));
+
     if (gb > 0)
     {
-       e = QString::number(gb) + QString(" Gb ") + QString::number(mb)+ QString(" Mb ") + QString::number(kb) + QString(" Kb ");
+       e = QString::number(gb) + QString(" Gb ") + QString::number(mb)+ QString(" Mb ");
     }
     else
     {
-       e = QString::number(mb) + QString(" Mb ") + QString::number(kb) + QString(" Kb ");
+       e = QString::number(mb) + QString(" Mb ");
     }
     memload->setText("Usage RAM: " + e);
-    int usage = 100 * (int)(usedMemory / totalMemory);
-    membar -> setValue(usage);
+    int usageRAM = (usedMemory * 100) / totalMemory;
+    membar -> setValue(usageRAM);
 }
 int Info::getCpuLoad(double dt)
 {
@@ -112,9 +110,11 @@ int Info::getCpuLoad(double dt)
     int size1 = stats1.size();
     int size2 = stats2.size();
     if (!size1 || !size2 || size1 != size2) return 2;
-    for (int i = 0; i < size1; ++i) stats2[i] -= stats1[i];
+    for (int i = 0; i < size1; ++i)
+        stats2[i] -= stats1[i];
     int sum = 1;
-    for (int i = 0; i < size1; ++i) sum += stats2[i];
+    for (int i = 0; i < size1; ++i)
+        sum += stats2[i];
     int load = 100 - (stats2[size2 - 1] * 100 / sum);
     return load;
 }

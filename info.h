@@ -19,19 +19,19 @@ class Info : public QWidget
 public:
     explicit Info(QWidget *parent = 0);
 private:
-    QLabel       * kernel;
-    QLabel       * hostname;
-    QLabel       * user;
-    QLabel       * uptime;
-    QLabel       * proc;
-    QLabel       * freq;
-    QLabel       * cpuload;
-    QLabel       * mem;
-    QLabel       * memload;
+    QLabel * kernel;
+    QLabel * hostname;
+    QLabel * user;
+    QLabel * uptime;
+    QLabel * proc;
+    QLabel * freq;
+    QLabel * cpuload;
+    QLabel * RAM;
+    QLabel * RAMload;
     QProgressBar * cpubar;
-    QProgressBar * membar;
-    QVBoxLayout  * layout;
-    QHBoxLayout  * hlayout;
+    QProgressBar * RAMbar;
+    QVBoxLayout * layout;
+    QHBoxLayout * hlayout;
     vector<float> readCpuStats();
     int getCpuLoad(double dt);
 public slots:

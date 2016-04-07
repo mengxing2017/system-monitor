@@ -1,4 +1,4 @@
-#include"systemmonitor.h"
+#include"sysmon.h"
 
 SystemMonitor::SystemMonitor(QWidget *parent) :
     QWidget(parent)

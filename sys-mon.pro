@@ -14,13 +14,13 @@ TEMPLATE = app
 
 SOURCES +=\
     info.cpp \
-    processtable.cpp \
-    systemmonitor.cpp \
-    main.cpp
+    main.cpp \
+    table.cpp \
+    sysmon.cpp
 
 HEADERS  += \
     info.h \
-    processtable.h \
-    systemmonitor.h
+    table.h \
+    sysmon.h
 
 FORMS    +=

@@ -3,28 +3,28 @@
 Info::Info(QWidget *parent) :
     QWidget(parent)
 {
-    kernel     = new QLabel("Kernel: ");
-    hostname   = new QLabel("Hostname: ");
-    user       = new QLabel("Username: ");
-    uptime     = new QLabel("Uptime: ");
-    proc       = new QLabel("Processor: ");
-    freq       = new QLabel("Frequency: ");
-    cpuload    = new QLabel("CPU load: ");
-    mem        = new QLabel("Total RAM: ");
-    memload    = new QLabel("Usage RAM: ");
-    cpubar     = new QProgressBar;
-    membar     = new QProgressBar;
-    layout     = new QVBoxLayout;
-    hlayout    = new QHBoxLayout;
+    kernel = new QLabel("Kernel: ");
+    hostname = new QLabel("Hostname: ");
+    user = new QLabel("Username: ");
+    uptime = new QLabel("Uptime: ");
+    proc = new QLabel("Processor: ");
+    freq = new QLabel("Frequency: ");
+    cpuload = new QLabel("CPU load: ");
+    RAM = new QLabel("Total RAM: ");
+    RAMload = new QLabel("Usage RAM: ");
+    cpubar = new QProgressBar;
+    RAMbar = new QProgressBar;
+    layout = new QVBoxLayout;
+    hlayout = new QHBoxLayout;
 
-    cpubar->setMaximumHeight(21); membar->setMaximumHeight(21);
+    cpubar->setMaximumHeight(21); RAMbar->setMaximumHeight(21);
     hlayout->addWidget(cpuload); hlayout->addWidget(cpubar);
     layout->addWidget(kernel);
     layout->addWidget(hostname); layout->addWidget(user);
     layout->addWidget(uptime); layout->addWidget(proc);
     layout->addWidget(freq); layout->addLayout(hlayout);
-    layout->addWidget(mem); layout->addWidget(memload);
-    layout->addWidget(membar); setLayout(layout);
+    layout->addWidget(RAM); layout->addWidget(RAMload);
+    layout->addWidget(RAMbar); setLayout(layout);
 
     update();
 
@@ -85,7 +85,7 @@ void Info::update()
     if (mb > 0)
        e += QString::number(mb) + QString(" Mb ");
 
-    mem->setText("Total RAM: " + e);
+    RAM->setText("Total RAM: " + e);
 
     int freeMemory = 0;
     for (int i = 0 ; i < 3 ; i++)
@@ -106,9 +106,9 @@ void Info::update()
     {
        e = QString::number(mb) + QString(" Mb ");
     }
-    memload->setText("Usage RAM: " + e);
+    RAMload->setText("Usage RAM: " + e);
     int usageRAM = (usedMemory * 100) / totalMemory;
-    membar -> setValue(usageRAM);
+    RAMbar -> setValue(usageRAM);
 }
 int Info::getCpuLoad(double dt)
 {

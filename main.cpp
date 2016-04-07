@@ -1,4 +1,4 @@
-#include "systemmonitor.h"
+#include "sysmon.h"
 #include "QStyleFactory"
 #include "QApplication"
 int main(int argc,char** argv)

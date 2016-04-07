@@ -3,7 +3,7 @@
 
 #include "QtGui"
 #include "info.h"
-#include "processtable.h"
+#include "table.h"
 class SystemMonitor : public QWidget
 {
     Q_OBJECT

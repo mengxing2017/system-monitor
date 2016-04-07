@@ -16,9 +16,9 @@ public:
     explicit ProcessTable(QWidget *parent = 0);
 private:
     QTableWidget * table;
-    QHBoxLayout* hlayout;
-    QPushButton* button;
-    QVBoxLayout* layout;
+    QHBoxLayout * hlayout;
+    QPushButton * button;
+    QVBoxLayout * layout;
 public slots:
     void update();
     void kill();

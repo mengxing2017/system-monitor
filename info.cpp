@@ -4,13 +4,13 @@ Info::Info(QWidget *parent) :
     QWidget(parent)
 {
     hostname   = new QLabel("Hostname: ");
-    user       = new QLabel("Пользователь: ");
+    user       = new QLabel("User: ");
     uptime     = new QLabel("Uptime: ");
-    proc       = new QLabel("Процессор: ");
-    freq       = new QLabel("Частота:");
+    proc       = new QLabel("Processor: ");
+    freq       = new QLabel("Frequency: ");
     cpuload    = new QLabel("Загрузка процессора: ");
-    mem        = new QLabel("Оперативная память: ");
-    memload    = new QLabel("Используемая оперативная память: ");
+    mem        = new QLabel("Total RAM: ");
+    memload    = new QLabel("Usage RAM: ");
     cpubar     = new QProgressBar;
     membar     = new QProgressBar;
     layout     = new QVBoxLayout;
@@ -32,12 +32,15 @@ Info::Info(QWidget *parent) :
 }
 void Info::update()
 {
-    ifstream stream("/proc/sys/kernel/hostname"); string str;
+    ifstream stream("/proc/sys/kernel/hostname");
+    string str;
     getline(stream,str);
     hostname->setText("Hostname: " + QString::fromStdString(str));
+
     uid_t uid = geteuid();
     passwd *pw = getpwuid(uid);
-    user->setText("Пользователь: " + QString::fromStdString(pw->pw_name));
+    user->setText("User: " + QString::fromStdString(pw->pw_name));
+
     struct sysinfo o;
     sysinfo(&o);
     long up = o.uptime;
@@ -47,20 +50,27 @@ void Info::update()
     QString e = QString::number(hour) +  QString(" h. ") + QString::number(min) + QString(" m. ")
                 + QString::number(sec) + QString(" s.");
     uptime->setText("Uptime: " + e);
+
     stream.close(); stream.open("/proc/cpuinfo");
-    for(int i = 0; i < 16;i++) stream >> str;
+    for(int i = 0; i < 16;i++)
+        stream >> str;
     getline(stream,str);
-    proc->setText("Процессор: " + QString::fromStdString(str));
-    for(int i = 0; i< 7; i++)  stream >> str;
-    freq->setText("Частота: " + QString::fromStdString(str) + " MHz");
+    proc->setText("Processor: " + QString::fromStdString(str));
+    for(int i = 0; i< 7; i++)
+        stream >> str;
+    freq->setText("Frequency: " + QString::fromStdString(str) + " MHz");
+
     cpubar->setValue(getCpuLoad(0.3));
-    stream.close(); stream.open("/proc/meminfo");
+
+    stream.close();
+    stream.open("/proc/meminfo");
     stream >> str; stream >> str;
-    int num = atoi(str.c_str());
-    int percent = num / 100;
-    int gb = (num / 1024) / 1024;
-    int mb = (num-gb*1024*1024) /1024;
-    int kb = (num - (gb*1024*1024+mb*1024));
+
+    int totalMemory = atoi(str.c_str());
+    int gb = (totalMemory / 1024) / 1024;
+    int mb = (totalMemory - gb * 1024 * 1024) / 1024;
+    int kb = (totalMemory - (gb * 1024 * 1024 + mb * 1024));
+
     if (gb > 0)
        e = QString::number(gb) + QString(" Gb ");
     else
@@ -69,26 +79,30 @@ void Info::update()
        e += QString::number(mb) + QString(" Mb ");
     if (kb > 0)
        e += QString::number(kb) + QString(" Kb ");
-    mem->setText("Оперативная память: " + e);
-    int free = 0;
-    for (int i = 0 ; i < 3 ; i++) {
-        stream >> str; stream >> str; stream >> str;
-        free += atoi(str.c_str());
+    mem->setText("Total RAM: " + e);
+
+    int freeMemory = 0;
+    for (int i = 0 ; i < 3 ; i++)
+    {
+        stream >> str; stream >> str;
+        freeMemory += atoi(str.c_str());
     }
-    num -= free;
-    gb = num / 1024 / 1024;
-    mb = (num - gb*1024*1024) / 1024;
-    kb = (num - ((mb*1024) + (gb * 1024 * 1024)));
+
+    int usedMemory = totalMemory - freeMemory;
+    gb = usedMemory / 1024 / 1024;
+    mb = (usedMemory - gb * 1024 * 1024) / 1024;
+    kb = (usedMemory - ((mb * 1024) + (gb * 1024 * 1024)));
     if (gb > 0)
-       e = QString::number(gb) + QString(" Gb ");
+    {
+       e = QString::number(gb) + QString(" Gb ") + QString::number(mb)+ QString(" Mb ") + QString::number(kb) + QString(" Kb ");
+    }
     else
-       e = QString("");
-    if (mb > 0)
-       e += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       e += QString::number(kb) + QString(" Kb ");
-    memload->setText("Используемая оперативная память: " + e);
-    percent = num / percent; membar->setValue(percent);
+    {
+       e = QString::number(mb) + QString(" Mb ") + QString::number(kb) + QString(" Kb ");
+    }
+    memload->setText("Usage RAM: " + e);
+    int usage = 100 * (int)(usedMemory / totalMemory);
+    membar -> setValue(usage);
 }
 int Info::getCpuLoad(double dt)
 {

@@ -5,9 +5,9 @@
 #include"QLayout"
 #include"QTableWidget"
 #include"QPushButton"
-#include <QtGui>
-#include <iostream>
-#include <fstream>
+#include "QtGui"
+#include "iostream"
+#include "fstream"
 using namespace std;
 class ProcessTable : public QWidget
 {

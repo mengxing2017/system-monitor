@@ -1,7 +1,7 @@
 #ifndef SYSTEMMONITOR_H
 #define SYSTEMMONITOR_H
 
-#include <QtGui>
+#include "QtGui"
 #include "info.h"
 #include "processtable.h"
 class SystemMonitor : public QWidget

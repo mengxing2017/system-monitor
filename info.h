@@ -5,13 +5,13 @@
 #include"QLayout"
 #include"QProgressBar"
 #include "QWidget"
-#include <QtGui>
-#include <iostream>
-#include <fstream>
-#include <pwd.h>
-#include <unistd.h>
-#include <sys/sysinfo.h>
-#include <vector>
+#include "QtGui"
+#include "iostream"
+#include "fstream"
+#include "pwd.h"
+#include "unistd.h"
+#include "sys/sysinfo.h"
+#include "vector"
 using namespace std;
 class Info : public QWidget
 {

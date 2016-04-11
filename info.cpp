@@ -57,8 +57,9 @@ void Info::getInfo()//Берем информацию о системе.
     QString e = QString::number(hour) +  QString(" h. ") + QString::number(min) + QString(" m. ")
                 + QString::number(sec) + QString(" s.");
     uptime->setText("Uptime: " + e);
+    stream.close();
 
-    stream.close(); stream.open("/proc/cpuinfo");
+    stream.open("/proc/cpuinfo");
     for(int i = 0; i < 16;i++)
         stream >> str;
     getline(stream,str);

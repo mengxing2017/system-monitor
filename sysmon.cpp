@@ -5,7 +5,8 @@ SystemMonitor::SystemMonitor(QWidget *parent) :
 {
     QTabWidget * tab = new QTabWidget;
     Info* info = new Info;
-    ProcTable* pt = new ProcTable;
+    Table* pt = new Table;
+
     tab->addTab(info,"Info");
     tab->addTab(pt,"Processes");
     QVBoxLayout * layout = new QVBoxLayout;

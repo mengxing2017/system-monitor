@@ -1,5 +1,5 @@
-#ifndef ProcTable_H
-#define ProcTable_H
+#ifndef Table_H
+#define Table_H
 
 #include "QWidget"
 #include"QLayout"
@@ -9,11 +9,11 @@
 #include "iostream"
 #include "fstream"
 using namespace std;
-class ProcTable : public QWidget
+class Table : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ProcTable(QWidget *parent = 0);
+    explicit Table(QWidget *parent = 0);
 private:
     QTableWidget * table;
     QHBoxLayout * hlayout;
@@ -24,4 +24,4 @@ public slots:
     void kill();
 };
 
-#endif // ProcTable_H
+#endif // Table_H

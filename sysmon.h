@@ -1,5 +1,5 @@
-#ifndef SYSTEMMONITOR_H
-#define SYSTEMMONITOR_H
+#ifndef SYSMON_H
+#define SYSMON_H
 
 #include "QtGui"
 #include "info.h"

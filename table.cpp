@@ -1,5 +1,5 @@
 #include "table.h"
-ProcTable::ProcTable(QWidget *parent) :
+Table::Table(QWidget *parent) :
 QWidget(parent)
 {
     hlayout = new QHBoxLayout;
@@ -22,7 +22,7 @@ QWidget(parent)
     timer->start(4000);
 }
 
-void ProcTable::getInfo()
+void Table::getInfo()
 {
     table->setColumnCount(3);
     table->setRowCount(0);
@@ -55,7 +55,7 @@ void ProcTable::getInfo()
         }
     }
 }
-void ProcTable::kill()
+void Table::kill()
 {
     QList<QTableWidgetItem*> list = table->selectedItems();
     QTableWidgetItem* item = list.value(0);

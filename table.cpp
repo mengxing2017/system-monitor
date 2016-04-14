@@ -32,15 +32,16 @@ void Table::getInfo()
     table->setHorizontalHeaderLabels(list);
     QDir * dir = new QDir("/proc");
     list = dir->entryList(QStringList("*"),QDir::AllDirs);
+
     foreach(QString str, list) {
         if(str.toInt()) {
             ifstream stream;
-
             stream.open("/proc/" + str.toLatin1() + "/comm");
             string s; getline(stream,s);
             int lastRow = table->rowCount();
             QString icon = "/usr/share/icons/hicolor/32x32/apps/" + QString::fromStdString(s) + ".png";
             //QFile file(icon);
+
             table->insertRow(lastRow);
             table->setColumnWidth(0,100);
 

@@ -1,4 +1,3 @@
 # system-monitor
-qmake
-make
-./app
+Запуск - qmake -> make ->./app
+Группа 553502. Тимошевич Илья. Системный монитор (GNU/Linux).

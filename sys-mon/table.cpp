@@ -11,11 +11,15 @@ QWidget(parent)
     hlayout->addWidget(button);
     layout = new QVBoxLayout;
     table = new QTableWidget;
+    //ChekWarning();
+
     getInfo();
 
     layout->addWidget(table);
     layout->addLayout(hlayout);
     this->setLayout(layout);
+    warning = new QLabel;
+    warning -> setText("ID");
 
     QTimer *timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(getInfo()));
@@ -56,11 +60,13 @@ void Table::getInfo()
         }
     }
 }
+
 void Table::kill()
 {
     QList<QTableWidgetItem*> list = table->selectedItems();
     QTableWidgetItem* item = list.value(0);
     QString str = item->text();
+    QString val = "123456789";
     QProcess::execute("kill", QStringList() << str);
     getInfo();
 }

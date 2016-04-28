@@ -1,5 +1,6 @@
 #include "info.h"
 #include "QString"
+
 Info::Info(QWidget *parent) :
     QWidget(parent)
 {
@@ -32,6 +33,7 @@ Info::Info(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(getInfo()));
     timer->start(2000);
 }
+
 void Info::getInfo()//Берем информацию о системе.
 {
     string str;

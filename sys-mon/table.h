@@ -8,6 +8,8 @@
 #include "QtGui"
 #include "iostream"
 #include "fstream"
+#include "QLabel"
+
 using namespace std;
 class Table : public QWidget
 {
@@ -17,9 +19,11 @@ public:
 private:
     QTableWidget * table;
     QHBoxLayout * hlayout;
+    QLabel * warning;
     QPushButton * button;
     QVBoxLayout * layout;
 public slots:
+    //void ChekWarning();
     void getInfo();
     void kill();
 };

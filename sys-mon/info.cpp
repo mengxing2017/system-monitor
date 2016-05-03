@@ -34,7 +34,7 @@ Info::Info(QWidget *parent) :
     timer->start(2000);
 }
 
-void Info::getInfo()//Берем информацию о системе.
+void Info::getInfo()//Берем информацию о системе из папки /proc.
 {
     string str;
     ifstream ver("/proc/version");
@@ -143,10 +143,9 @@ int Info::getCpuLoad(double dt)//Загруженность процессора
 vector<float> Info::readCpuStats()
 {
     vector<float> ret;
-    ifstream stat_file("/proc/stat");
-
     int val;
     string tmp;
+    ifstream stat_file("/proc/stat");
 
     stat_file >> tmp;
     for (int i = 0; i < 4; ++i)

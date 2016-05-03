@@ -11,7 +11,6 @@ QWidget(parent)
     hlayout->addWidget(button);
     layout = new QVBoxLayout;
     table = new QTableWidget;
-    //ChekWarning();
 
     getInfo();
 
@@ -43,16 +42,11 @@ void Table::getInfo()
             stream.open("/proc/" + str.toLatin1() + "/comm");
             string s; getline(stream,s);
             int lastRow = table->rowCount();
-            QString icon = "/usr/share/icons/hicolor/32x32/apps/" + QString::fromStdString(s) + ".png";
-            //QFile file(icon);
 
             table->insertRow(lastRow);
             table->setColumnWidth(0,100);
 
-            /*if(!file.exists()) {
-                icon = "icon.png";
-            }*/
-            table->setItem(lastRow,0,new QTableWidgetItem(QPixmap(icon),QString::fromStdString(s)));
+            table->setItem(lastRow,0,new QTableWidgetItem(QString::fromStdString(s)));
             table->setItem(lastRow,1,new QTableWidgetItem(str));
         } else
         {
@@ -66,7 +60,6 @@ void Table::kill()
     QList<QTableWidgetItem*> list = table->selectedItems();
     QTableWidgetItem* item = list.value(0);
     QString str = item->text();
-    QString val = "123456789";
     QProcess::execute("kill", QStringList() << str);
     getInfo();
 }

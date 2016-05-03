@@ -9,6 +9,7 @@ SystemMonitor::SystemMonitor(QWidget *parent) :
 
     tab->addTab(info,"Info");
     tab->addTab(pt,"Processes");
+
     QVBoxLayout * layout = new QVBoxLayout;
     layout->addWidget(tab);
     this->setLayout(layout);

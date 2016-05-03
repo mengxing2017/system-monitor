@@ -8,8 +8,8 @@
 #include "QtGui"
 #include "iostream"
 #include "fstream"
-#include "pwd.h"
-#include "unistd.h"
+#include "pwd.h"    //для заполнения
+#include "unistd.h" //имени пользователя
 #include "sys/sysinfo.h"
 #include "vector"
 using namespace std;
